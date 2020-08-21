@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#showCode{
+				width: 200px;
+				height: 200px;
+				font-size: 80px;
+				color: #fff;
+				line-height: 200px;
+				text-align: center;
+				position: fixed;
+				left: calc(50% - 100px);
+				top: 200px;
+				background-color: rgba(0,0,0,0.6);
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div id="showCode"></div>
+		
+		<script src="js/alert.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var score = 0;
+			
+			function randomCode(){
+				var randomNum = 97 +  parseInt( Math.random()*26)   //可以随机出[0-1)
+				var randomStr = String.fromCharCode(randomNum)
+				console.log(randomNum)
+				console.log(randomStr)
+				//将字符串的小写转成大写
+				var ucStr = randomStr.toUpperCase()
+				console.log(ucStr)
+				var showCodeDiv = document.querySelector("#showCode");
+				showCodeDiv.innerHTML = ucStr
+			}
+			
+			randomCode()
+			
+			var body = document.body;
+			body.onkeypress = function(event){
+				console.log(event)
+				var keyCode = event.key.toUpperCase()
+				var showCodeDiv = document.querySelector("#showCode");
+				if(keyCode == showCodeDiv.innerHTML){
+					console.log("打字正确，得分:"+score);
+					score++;
+					randomCode()
+				}
+			}
+			
+			var fn10 = function(){
+				//alert("您每分钟能敲"+score*6+"单词");
+				lcAlert({
+					title:"打字速度",
+					content:"您每分钟能敲"+score*6+"单词",
+					confirmFn:function(){
+						score = 0;
+						setTimeout(fn10,10000)
+					}
+				})
+			}
+			
+			setTimeout(fn10,10000)
+		</script>
+	</body>
+</html>
